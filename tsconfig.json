@@ -18,6 +18,11 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
+    "paths": {
+      "tboi-four-souls.js": [
+        "./dist/tboi-four-souls.js"
+      ]
+    },
     "lib": [
       "ES2022",
       "dom"
