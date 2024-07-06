@@ -1,4 +1,4 @@
-import { ORIGIN_SET, MONSTER_KILL_REWARDS } from "./cards"
+import { ORIGIN_SET, MONSTER_KILL_REWARDS } from "../classes/cards"
 
 /* The sub-arrays contain the following:
 * 1. Origin Set: enum of string

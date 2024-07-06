@@ -1,6 +1,9 @@
 {
   "name": "tboi-four-souls.js",
   "version": "0.0.1",
+  "scripts": {
+    "test": "ng test tboi-four-souls.js"
+  },
   "peerDependencies": {
     "@angular/common": "^17.3.0",
     "@angular/core": "^17.3.0"

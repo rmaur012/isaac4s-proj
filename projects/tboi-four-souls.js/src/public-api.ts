@@ -3,4 +3,3 @@
  */
 
 export * from './lib/tboi-four-souls.js.service';
-export * from './lib/tboi-four-souls.js.component';

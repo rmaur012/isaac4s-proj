@@ -1,5 +1,5 @@
-import { BaseCard, PlayerCard, SoulCard, TreasureCard } from "./cards";
-import { playerCardInfo, soulCardInfo } from "./card-info";
+import { BaseCard, PlayerCard, SoulCard, StartingItemCard, TreasureCard } from "./cards";
+import { playerCardInfo, startingItemCardInfo, soulCardInfo } from "./card-info";
 
 
 // Abstract Class
@@ -70,8 +70,30 @@ abstract class BaseDeck {
     return cardsFound;
   }
 
+  // Returns cards from the top without taking those cards out of the array
+  peekCards(peekAmount: number): BaseCard[]{
+    if(peekAmount > this._deck.length){
+      peekAmount = this._deck.length;
+    }
+
+    var cardsPeeked: BaseCard[] = [];
+    var indexFromTop = 0;
+    while(indexFromTop < peekAmount){
+      const card = this._deck[indexFromTop];
+      if (card !== undefined) {
+        cardsPeeked.push(card);
+      }
+      indexFromTop++;
+    }
+    return cardsPeeked;
+  }
+
   // Take cards from deck from the front of the deck
   drawCards(drawAmount: number): BaseCard[]{
+    if(drawAmount > this._deck.length){
+      drawAmount = this._deck.length;
+    }
+
     var cardsDrawn: BaseCard[] = [];
     while(drawAmount > 0){
       const card = this._deck.shift();
@@ -83,6 +105,7 @@ abstract class BaseDeck {
     return cardsDrawn;
   }
 
+  // Add cards to the deck at the end of the array
   addCardsToDeck(cardsToAdd: BaseCard[]): void{
     for(const card of cardsToAdd) {
       this._deck.push(card);
@@ -120,6 +143,30 @@ export class PlayerDeck extends BaseDeck{
       } else {
         this.addOneCardToDeck(new PlayerCard(cardInfo[0].toString(), cardInfo[1].toString(), cardInfo[2].toString(), cardInfo[3].toString(), Number(cardInfo[4]), Number(cardInfo[5])));
       }
+    }
+  }
+
+  findStartingItemForCharacter(charCard: PlayerCard, startingItemDeck: StartingItemDeck): StartingItemCard | null{
+    for(const startingItem of startingItemDeck.deck){
+      if(startingItem.name === charCard.eternal){
+        return startingItem;
+      }
+    }
+    return null;
+  }
+}
+
+export class StartingItemDeck extends BaseDeck{
+
+  constructor() {
+      super();
+      this.instantiate();
+  }
+
+  instantiate() {
+    this.resetDeckToEmpty();
+    for (const cardInfo of startingItemCardInfo) {
+      this.addOneCardToDeck(new StartingItemCard(cardInfo[0].toString(), cardInfo[1].toString(), cardInfo[2].toString(), Boolean(cardInfo[3]), Boolean(cardInfo[4])));
     }
   }
 }
