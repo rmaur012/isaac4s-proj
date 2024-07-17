@@ -1,10 +1,10 @@
-import { BaseCard, PlayerCard, SoulCard, StartingItemCard, TreasureCard } from "./cards";
-import { playerCardInfo, startingItemCardInfo, soulCardInfo } from "./card-info";
+import { BaseCard, LootCard, MonsterCard, PlayerCard, RoomCard, SoulCard, StartingItemCard, TreasureCard } from "./cards";
+import { playerCardInfo, startingItemCardInfo, soulCardInfo, monsterCardInfo, lootCardInfo, roomCardInfo } from "./card-info";
 
 
 // Abstract Class
-abstract class BaseDeck {
-  private _deck: BaseCard[];
+abstract class BaseDeck<T extends BaseCard> {
+  private _deck: T[];
 
   constructor(){
     if (this.constructor === BaseDeck) {
@@ -20,14 +20,13 @@ abstract class BaseDeck {
 
   shuffle() {
     // A common shuffle implementation for all decks
-    var max = this._deck.length;
-    for (let i = 0; i < max; i++) {
-      const j = Math.floor(Math.random() * (max - i + 1)) + i;
+    for (let i = this._deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * ( i + 1));
       [this._deck[i], this._deck[j]] = [this._deck[j], this._deck[i]];
     }
   }
 
-  getRandomCard(): BaseCard{
+  getRandomCard(): T{
     return this._deck[Math.floor(Math.random() * (this._deck.length + 1))];
   }
 
@@ -40,8 +39,8 @@ abstract class BaseDeck {
     return null;
   }
 
-  getAllCardsByOriginSet(originSet: string): BaseCard[]{
-    var cardsFound: BaseCard[] = [];
+  getAllCardsByOriginSet(originSet: string): T[]{
+    var cardsFound: T[] = [];
     for(const aCard of this._deck){
       if(aCard.originSet === originSet){
         cardsFound.push(aCard);
@@ -105,8 +104,14 @@ abstract class BaseDeck {
     return cardsDrawn;
   }
 
+  // Add cards to the top by concatonating the two arrays
+  addCardsToTopOfDeck(cardsToAdd: T[]): void{
+    cardsToAdd.push(...this._deck);
+    this._deck = cardsToAdd;
+  }
+
   // Add cards to the deck at the end of the array
-  addCardsToDeck(cardsToAdd: BaseCard[]): void{
+  addCardsToBottomOfDeck(cardsToAdd: T[]): void{
     for(const card of cardsToAdd) {
       this._deck.push(card);
     }
@@ -122,12 +127,12 @@ abstract class BaseDeck {
   }
 
   // General Methods
-  addOneCardToDeck(card: BaseCard){
+  protected addOneCardToBottomOfDeck(card: T){
     this._deck.push(card);
   }
 }
 
-export class PlayerDeck extends BaseDeck{
+export class PlayerDeck extends BaseDeck<PlayerCard>{
   private _basicPlayerEffect: string = 'Play an additional loot card this turn.';
 
   constructor() {
@@ -139,14 +144,17 @@ export class PlayerDeck extends BaseDeck{
     this.resetDeckToEmpty();
     for (const cardInfo of playerCardInfo) {
       if(cardInfo[2] === ''){
-        this.addOneCardToDeck(new PlayerCard(cardInfo[0].toString(), cardInfo[1].toString(), this._basicPlayerEffect, cardInfo[3].toString(), Number(cardInfo[4]), Number(cardInfo[5]))); 
+        this.addOneCardToBottomOfDeck(new PlayerCard(cardInfo[0].toString(), cardInfo[1].toString(), this._basicPlayerEffect, cardInfo[3].toString(), Number(cardInfo[4]), Number(cardInfo[5]))); 
       } else {
-        this.addOneCardToDeck(new PlayerCard(cardInfo[0].toString(), cardInfo[1].toString(), cardInfo[2].toString(), cardInfo[3].toString(), Number(cardInfo[4]), Number(cardInfo[5])));
+        this.addOneCardToBottomOfDeck(new PlayerCard(cardInfo[0].toString(), cardInfo[1].toString(), cardInfo[2].toString(), cardInfo[3].toString(), Number(cardInfo[4]), Number(cardInfo[5])));
       }
     }
   }
 
   findStartingItemForCharacter(charCard: PlayerCard, startingItemDeck: StartingItemDeck): StartingItemCard | null{
+    if(charCard.name === 'Eden'){ // Eden has no starting item
+      return null;
+    }
     for(const startingItem of startingItemDeck.deck){
       if(startingItem.name === charCard.eternal){
         return startingItem;
@@ -156,7 +164,7 @@ export class PlayerDeck extends BaseDeck{
   }
 }
 
-export class StartingItemDeck extends BaseDeck{
+export class StartingItemDeck extends BaseDeck<StartingItemCard>{
 
   constructor() {
       super();
@@ -166,12 +174,37 @@ export class StartingItemDeck extends BaseDeck{
   instantiate() {
     this.resetDeckToEmpty();
     for (const cardInfo of startingItemCardInfo) {
-      this.addOneCardToDeck(new StartingItemCard(cardInfo[0].toString(), cardInfo[1].toString(), cardInfo[2].toString(), Boolean(cardInfo[3]), Boolean(cardInfo[4])));
+      this.addOneCardToBottomOfDeck(new StartingItemCard(cardInfo[0].toString(), cardInfo[1].toString(), cardInfo[2].toString(), Boolean(cardInfo[3]), Boolean(cardInfo[4])));
     }
   }
 }
 
-export class TreasureDeck extends BaseDeck{
+export class MonsterDeck extends BaseDeck<MonsterCard>{
+  constructor() {
+      super();
+      this.instantiate();
+  }
+
+  // This is to set up the deck from the card info array. Not to add and remove cards from deck.
+  instantiate() {
+    this.resetDeckToEmpty();
+    for (const cardInfo of monsterCardInfo) {
+      this.addOneCardToBottomOfDeck(new MonsterCard(cardInfo[0].toString(), cardInfo[1].toString(), cardInfo[2].toString(), Number(cardInfo[3]), Number(cardInfo[4]),Number(cardInfo[5]), cardInfo[6].toString(), Number(cardInfo[7]), Boolean(cardInfo[8]), Boolean(cardInfo[9])));
+    }
+  }
+
+  getAllCardsWithSouls(): MonsterCard[]{
+    var cardsFound: MonsterCard[] = [];
+    for(const aCard of this.deck){
+      if(aCard.numOfSouls){
+        cardsFound.push(aCard);
+      }
+    }
+    return cardsFound;
+  }
+}
+
+export class TreasureDeck extends BaseDeck<TreasureCard>{
 
   constructor() {
       super();
@@ -181,12 +214,12 @@ export class TreasureDeck extends BaseDeck{
   instantiate() {
     this.resetDeckToEmpty();
     for (const cardInfo of playerCardInfo) {
-      this.addOneCardToDeck(new TreasureCard(cardInfo[0].toString(), cardInfo[1].toString(), cardInfo[2].toString(), Boolean(cardInfo[3]), Boolean(cardInfo[4])));
+      this.addOneCardToBottomOfDeck(new TreasureCard(cardInfo[0].toString(), cardInfo[1].toString(), cardInfo[2].toString(), Boolean(cardInfo[3]), Boolean(cardInfo[4])));
     }
   }
 }
 
-export class SoulDeck extends BaseDeck{
+export class SoulDeck extends BaseDeck<SoulCard>{
   constructor() {
       super();
       this.instantiate();
@@ -196,8 +229,40 @@ export class SoulDeck extends BaseDeck{
   instantiate() {
     this.resetDeckToEmpty();
     for (const cardInfo of soulCardInfo) {
-      this.addOneCardToDeck(new SoulCard(cardInfo[0], cardInfo[1], cardInfo[2]));
+      this.addOneCardToBottomOfDeck(new SoulCard(cardInfo[0], cardInfo[1], cardInfo[2]));
+    }
+  }
+}
+
+export class LootDeck extends BaseDeck<LootCard>{
+  constructor() {
+      super();
+      this.instantiate();
+  }
+
+  // This is to set up the deck from the card info array. Not to add and remove cards from deck.
+  instantiate() {
+    this.resetDeckToEmpty();
+    for (const cardInfo of lootCardInfo) {
+      this.addOneCardToBottomOfDeck(new LootCard(cardInfo[0].toString(), cardInfo[1].toString(), cardInfo[2].toString(), Boolean(cardInfo[3])));
     }
   }
 
+  // Function that will make a deck with the number of cards a deck is supposed to come with, instead of one of each card. Ex. Create the right number of 1 cent cards, 2 cent cards, etc.
+  //generatePlayingDeck()
+}
+
+export class RoomDeck extends BaseDeck<RoomCard>{
+  constructor() {
+      super();
+      this.instantiate();
+  }
+
+  // This is to set up the deck from the card info array. Not to add and remove cards from deck.
+  instantiate() {
+    this.resetDeckToEmpty();
+    for (const cardInfo of roomCardInfo) {
+      this.addOneCardToBottomOfDeck(new RoomCard(cardInfo[0].toString(), cardInfo[1].toString(), cardInfo[2].toString(), Boolean(cardInfo[3])));
+    }
+  }
 }

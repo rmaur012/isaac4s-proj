@@ -124,7 +124,7 @@ export const startingItemCardInfo = [
     [ORIGIN_SET.REQUIEM, 'Classic Roller', '(Tap Effect) Choose a dice roll. Its controller rerolls it, but rolls 2 dice instead. They choose another player. That player chooses one of the rolls as the result. | At the end of your turn, recharge this.', true, false],
     [ORIGIN_SET.SUMMER_OF_ISAAC, 'Unstable DNA', 'At the start of your turn, roll- 1-2: Remove all counters from this., 3-4: Put a HP counter on this., 5-6: Put a ATK counter on this.', true, false],
     [ORIGIN_SET.SUMMER_OF_ISAAC, 'Club', 'Rewards from non-boss monsters are doubled on your turn. | (Tap Effect) If it\'s your turn, put a monster not being attacked on the bottom of the monster deck. | (Tap Effect) Cancel the ↷ or $ ability of an item or a loot card being played. This loses all abilities except eternal until the next time your turn ends.', true, false],
-    [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Ball of Tar', '(Paid Effect) Discard a loot card: choose one- •Copy a non-trinket, non-ambush loot being played by another player that hasn\'t already been copied this turn. | •Put a monster not being attacked into discard. | •Prevent the next 1 damage you would take this turn.', false, true],
+    [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Ball of Tar', '(Paid Effect) Discard a loot card: choose one- •Copy a non-trinket, non-ambush loot being played by another player that hasn\'t already been copied this turn. | •Put a monster not being attacked into discard. | •Prevent the next 1 damage you would take this turn.', false, true],  // DOT
     [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Ball of Tumors', 'This starts at level 6. | If this is higher than level 0, instead of paying the death penalty, this levels down. | LV2 Effect: You may play an additional loot card on your turn. | LV4 Effect: At the end of your turn, discard a loot card and loot 2.', true, false],
     [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Lil Steven', 'Each time a monster or player dies, put a counter on this. (Paid Effect) Remove 10 counters from this: The active player takes an extra turn after this one.', false, true],
     [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Strange Marble', 'Each time a monster or player dies, you may recharge an item. | At the start of your turn, you may reveal the top card of the loot deck. If it\'s a non-trinket, non-ambush card, each player may play a copy of it without using a loot play.', false, false],
@@ -320,6 +320,13 @@ export const treasureCardInfo = [
     [ORIGIN_SET.BASE_V2, '', '', false, false],
 ]
 
+/* The sub-arrays contain the following:
+* 1. Origin Set: enum of string
+* 2. Card Title: string
+* 3. Effect Description: string
+* 
+* isTappable and isPayable set to false by default
+*/
 export const soulCardInfo = [
     [ORIGIN_SET.BASE_V2, 'Soul of Envy', 'The first time a player controls their 3rd soul, the active player chooses a player who controls the fewest souls or tied for fewest. that player gains this soul.'],
     [ORIGIN_SET.BASE_V2, 'Soul of Gluttony', 'The first player to have 10 or more loot cards in their hand gains this soul.'],
@@ -332,10 +339,142 @@ export const soulCardInfo = [
     [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Strawberry', 'The first active player to roll a 1 three times on the same turn gains this soul.'],
 ]
 
+/* The sub-arrays contain the following:
+* 1. Origin Set: enum of string
+* 2. Card Title: string
+* 3. Effect Description: string
+* 4. istrinket: Boolean
+* 5. numOfOccurrences: number (optional, defaulted to 1 if missing)
+* 
+* isTappable and isPayable set to false by default
+*/
 export const lootCardInfo = [
-    ['Isaac', '', 'The D6', 2, 1]
+    [ORIGIN_SET.BASE_V2, 'A Penny!', 'Gain 1¢.', false, 11],
+    [ORIGIN_SET.BASE_V2, '2 Cents!', 'Gain 2¢.', false, 22],
+    [ORIGIN_SET.BASE_V2, '3 Cents!', 'Gain 3¢.', false, 27],
+    [ORIGIN_SET.BASE_V2, '4 Cents!', 'Gain 4¢.', false, 17],
+    [ORIGIN_SET.BASE_V2, 'A Nickel!', 'Gain 5¢.', false, 7],
+    [ORIGIN_SET.BASE_V2, 'A Dime!', 'Gain 10¢.', false],
+    [ORIGIN_SET.BASE_V2, 'Lil Battery', 'Recharge an item.', false, 7],
+    [ORIGIN_SET.BASE_V2, 'Mega Battery', 'Choose a player. Recharge each item they control.', false],
+    [ORIGIN_SET.BASE_V2, 'Bomb!', 'Deal 1 damage to a monster or player.', false, 9],
+    [ORIGIN_SET.BASE_V2, 'Gold Bomb!!', 'Deal 3 damage to a monster or player.', false],
+    [ORIGIN_SET.BASE_V2, 'Butter Bean!', 'Cancel the ↷ or $ ability of an item or a loot being played.', false, 7],
+    [ORIGIN_SET.BASE_V2, 'Dice Shard', 'Choose a dice roll. its controller rerolls it.', false, 7],
+    [ORIGIN_SET.BASE_V2, 'Pills!', 'Roll- 1-2: Gain 4¢., 3-4: Gain 7¢., 5-6: Lose 4¢.', false],
+    [ORIGIN_SET.BASE_V2, 'Pills!', 'Roll- 1-2: You gain +1 attack till the end of turn., 3-4: You gain +1 HP till the end of turn., 5-6: Take 1 damage.', false],
+    [ORIGIN_SET.BASE_V2, 'Pills!', 'Roll- 1-2: Loot 1., 3-4: Loot 3., 5-6: Discard 1 loot card.', false],
+    [ORIGIN_SET.BASE_V2, 'Soul Heart', 'Choose a player. Prevent the next 1 damage they would take this turn.', false, 5],
+    [ORIGIN_SET.BASE_V2, 'O. THE FOOL', 'End the turn. Cancel everything that hasn\'t resolved.', false],
+    [ORIGIN_SET.BASE_V2, 'I. Magician', 'Change the result of a dice roll to a number of your choosing.', false],
+    [ORIGIN_SET.BASE_V2, 'II. The High Priestess', 'Choose a player or monster, then roll- Deal damage to them equal to the result.', false],
+    [ORIGIN_SET.BASE_V2, 'III. The Empress', 'Choose a player. They gain +1 attack and +1 to dice rolls till end of turn.', false],
+    [ORIGIN_SET.BASE_V2, 'IV. The Emperor', 'Look at the top 5 cards of the monster deck. Put 1 on top and the rest on the bottom.', false],
+    [ORIGIN_SET.BASE_V2, 'V. The Hierophant', 'Choose a player or monster. Prevent the next instance of up to 2 damage they would take this turn.', false],
+    [ORIGIN_SET.BASE_V2, 'VI. The Lovers', 'Choose a player. They gain +2 HP till end of turn.', false],
+    [ORIGIN_SET.BASE_V2, 'VII. The Chariot', 'Choose a player. They gain +1 attack and +1 HP till end of turn.', false],
+    [ORIGIN_SET.BASE_V2, 'VIII. Justice', 'Choose a player. Loot and gain ¢ until you have the same number of each as they do.', false],
+    [ORIGIN_SET.BASE_V2, 'IX. The Hermit', 'Look at the top 5 cards of the treasure deck. Put 1 on top and the rest on the bottom.', false],
+    [ORIGIN_SET.BASE_V2, 'X. Wheel of Fortune', 'Roll- 1: Gain 1¢., 2: Take 2 damage., 3. Loot 3., 4. Lose 4¢., 5: Gain 5¢., 6: Gain +1 treasure.', false],
+    [ORIGIN_SET.BASE_V2, 'XI. Strength', 'Choose a player. They gain +1 attack till end of turn and may attack an additional time this turn.', false],
+    [ORIGIN_SET.BASE_V2, 'XII. The Hanged Man', 'Look at the top card of each deck. You may put any of those cards on the bottom of their deck, then loot 2.', false],
+    [ORIGIN_SET.BASE_V2, 'XIII. Death', 'Kill a player.', false],
+    [ORIGIN_SET.BASE_V2, 'XIV. Temperance', 'Choose one- •Take 1 damage and gain 4¢. | •Take 2 damage and gain 8¢.', false],
+    [ORIGIN_SET.BASE_V2, 'XV. The Devil', 'Destroy an item you control. If you do, steal a non-eternal item from a player or from the shop.', false],
+    [ORIGIN_SET.BASE_V2, 'XVI. The Tower', 'Roll- 1-2: Each player takes 1 damage., 3-4: Each monster takes 1 damage., 5-6: Each player takes 2 damage.', false],
+    [ORIGIN_SET.BASE_V2, 'XVII. The Stars', 'Gain +1 treasure.', false],
+    [ORIGIN_SET.BASE_V2, 'XVIII. The Moon', 'Look at the top 5 cards of the loot deck. Put 1 on top and the rest on the bottom.', false],
+    [ORIGIN_SET.BASE_V2, 'XIX. The Sun', 'Put this on the bottom of the loot deck. If you do, take an extra turn after this one if it\'s your turn.', false],
+    [ORIGIN_SET.BASE_V2, 'XX. Judgement', 'Choose the player with the most souls or tied for the most. That player destroys a soul they control.', false],
+    [ORIGIN_SET.BASE_V2, 'XXI. The World', 'Look at each player\'s hand. Then loot 2.', false],
+    [ORIGIN_SET.BASE_V2, 'Dagaz', 'Choose one- •Destroy a curse. | •Choose a player. prevent the next 1 damage they would take this turn.', false],
+    [ORIGIN_SET.BASE_V2, 'Ehwaz', 'Put each monster not being attacked into discard and replace each with the top card of the monster deck.', false],
+    [ORIGIN_SET.BASE_V2, 'Blank Rune', 'Roll- 1: Each player gains 1¢., 2: Each player loots 2., 3: Each player takes 3 damage., 4: Each player gains 4¢., 5: Each player loots 5., 6: Each player gains 6¢.', false],
+    [ORIGIN_SET.BASE_V2, 'Bloody Penny', 'Each time a player dies, before paying penalties, loot 1.', true],
+    [ORIGIN_SET.BASE_V2, 'Broken Ankh', 'When you would die, roll- 6: Prevent death. If it\'s your turn, cancel everything that hasn\'t resolved and end it.', true],
+    [ORIGIN_SET.BASE_V2, 'Cain\'s Eye', 'At the start of your turn, look at the top card of the loot deck. You may put it on the bottom.', true],
+    [ORIGIN_SET.BASE_V2, 'Counterfeit Penny', 'If you would gain any number of ¢, gain that much +1¢ instead.', true],
+    [ORIGIN_SET.BASE_V2, 'Curved Horn', 'Gain +1 attack for your first attack roll each turn.', true],
+    [ORIGIN_SET.BASE_V2, 'Golden Horseshoe', 'At the start of your turn, look at the top card of the treasure deck, you may put it on the bottom.', true],
+    [ORIGIN_SET.BASE_V2, 'Guppy\'s Hairball', 'Each time you would take damage, roll- 6: Prevent 1 of that damage.', true],
+    [ORIGIN_SET.BASE_V2, 'Purple Heart', 'At the start of your turn, look at the top card of the monster deck. You may put it on the bottom.', true],
+    [ORIGIN_SET.BASE_V2, 'Swallowed Penny', 'Each time you take damage, gain 1¢.', true],
+    [ORIGIN_SET.BASE_V2, 'Lost Soul', 'When this enters play, it becomes a soul. (It\'s no longer an item.)', true],
+    [ORIGIN_SET.GOLD_BOX_V2, 'Charged Penny', 'Gain 1¢, then recharge an item.', false],
+    [ORIGIN_SET.GOLD_BOX_V2, 'Pills!', 'Roll- 1-2: Recharge each item you control., 3-4: Monsters you attack have -1DC till end of turn., 5-6: Monsters you attack have +2DC till end of turn.', false],
+    [ORIGIN_SET.GOLD_BOX_V2, 'Credit Card', 'The first shop item a player purchases this turn costs 0¢.', false],
+    [ORIGIN_SET.GOLD_BOX_V2, 'Holy Card', 'Choose a player. the next time that player would die this turn, prevent death. if it\'s their turn, cancel everything that hasn\'t resolved and end it.', false],
+    [ORIGIN_SET.GOLD_BOX_V2, 'Two of Diamonds', 'Choose a player. They gain x¢, where x is the number of ¢ they have.', false],
+    [ORIGIN_SET.GOLD_BOX_V2, 'Joker', 'Look at a player\'s hand. You may steal a loot card from them.', false],
+    [ORIGIN_SET.GOLD_BOX_V2, 'Jera', 'Loot x, where x is equal to the number of loot cards in your hand.', false],
+    [ORIGIN_SET.GOLD_BOX_V2, 'Cancer', 'You have +1 to your first dice roll each turn.', true],
+    [ORIGIN_SET.GOLD_BOX_V2, 'Pink Eye', 'Each time you take combat damage from a monster or player on an attack roll of 1, deal 1 damage to them.', true],
+    [ORIGIN_SET.GOLD_BOX_V2, 'A Sack', 'Loot 3', false],
+    [ORIGIN_SET.FOUR_SOULS_PLUS_V2, 'Pills!', 'Roll- 1-2: Cancel the effect of a loot being played., 3-4: Each other player discards a loot card.', false],
+    [ORIGIN_SET.FOUR_SOULS_PLUS_V2, 'Pills!', 'Roll- 1-2: Reroll an item you control., 3-4: Reroll an item., 5-6: Reroll each item you control.', false],
+    [ORIGIN_SET.FOUR_SOULS_PLUS_V2, 'Pills!', 'Roll- 1-2: Deal 1 damage to a player., 3-4: Deal 1 damage to a monster., 5-6: Take 1 damage.', false],
+    [ORIGIN_SET.FOUR_SOULS_PLUS_V2, '? Card', 'As you play this, choose an item. this copies one of that item\'s ↷ abilities.', false],
+    [ORIGIN_SET.FOUR_SOULS_PLUS_V2, 'Get out of Jail Card', 'Other players can\'t play loot cards or activate items till end of turn.', false],
+    [ORIGIN_SET.FOUR_SOULS_PLUS_V2, 'Ansuz', 'Look at the top 4 cards of a deck and put them back in any order.', false],
+    [ORIGIN_SET.FOUR_SOULS_PLUS_V2, 'Perthro', 'Reroll an item. (Destroy that item and replace it with the top card of the treasure deck.)', false],
+    [ORIGIN_SET.FOUR_SOULS_PLUS_V2, 'Black Rune', 'Roll- 1-2: Deal 1 damage to each monster., 3-4: Reroll an item., 5-6: Discard your hand, then loot 3.', false],
+    [ORIGIN_SET.FOUR_SOULS_PLUS_V2, 'AAA Battery', 'At the end of your turn, roll- 4-6: Recharge an item.', true],
+    [ORIGIN_SET.FOUR_SOULS_PLUS_V2, 'Poker Chip', 'The first time you would gain ¢ on each of your turns, roll- 1-3: Gain 1 ¢ instead., 4-6: Gain double the number of ¢ you would\'ve gained.', true],
+    [ORIGIN_SET.FOUR_SOULS_PLUS_V2, 'Tape Worm', 'Each time you miss an attack roll, deal 1 damage to another player.', true],
+    [ORIGIN_SET.FOUR_SOULS_PLUS_V2, 'The Left Hand', 'Each time another player dies, you may recharge an item.', true],
+    [ORIGIN_SET.FOUR_SOULS_PLUS_V2, 'Gold Key', 'The active player may attack the monster deck any number of times till end of turn.', false],
+    [ORIGIN_SET.REQUIEM, 'A Lucky Penny!', 'Gain 1¢. | Rewards are doubled till end of turn.', false],
+    [ORIGIN_SET.REQUIEM, 'Sticky Nickel', 'Roll- 1-3: Give this to the player to your left., 4-6: Gain 5¢.', false],
+    [ORIGIN_SET.REQUIEM, 'Mega Bomb!', 'Deal 2 damage to a monster or player.', false],
+    [ORIGIN_SET.REQUIEM, 'Pills!', 'Roll- 1-2: Loot 3. Then put 3 cards from your hand on top of the loot deck in any order., 3-4: Loot 3. Then put 1 card from your hand on top of the loot deck., 5-6: Loot 3.', false],
+    [ORIGIN_SET.REQUIEM, 'Pills!', 'Roll 3 times!- 1-2: You gain +1 attack till end of turn!, 3-4: You gain +1 HP till end of turn!, 5-6: You take 1 damage!', false],
+    [ORIGIN_SET.REQUIEM, 'Black Heart', 'Choose a player. Prevent the next 1 damage they would take this turn. Till end of turn, when that player dies, deal 2 damage to each player other than that player and you.', false],
+    [ORIGIN_SET.REQUIEM, 'Ace of Diamonds', 'Gain x¢, where x is the number of monster slots plus the number of loot cards in your hand.', false],
+    [ORIGIN_SET.REQUIEM, 'Emergency Contact', 'Cancel an attack on a monster and put that monster card on the bottom of the monster deck.', false],
+    [ORIGIN_SET.REQUIEM, 'Two of Spades', 'Choose another player. Loot x, where x is the number of loot cards in that player\'s hand.', false],
+    [ORIGIN_SET.REQUIEM, 'Algiz', 'Choose a player. Each item they control gains eternal till end of turn.', false],
+    [ORIGIN_SET.REQUIEM, 'Berkano', 'Destroy an item. If that item was controlled by a player, they steal an item from the shop.', false],
+    [ORIGIN_SET.REQUIEM, 'Hagalaz', 'Look at the top 5 cards of the monster or room deck and put them back in any order, then put a room or monster not being attacked into discard.', false],
+    [ORIGIN_SET.REQUIEM, 'Bag Lunch', 'If this would be destroyed, if it has no counters on it, put a counter on it instead. You have +1 HP while this has a counter on it.', true],
+    [ORIGIN_SET.REQUIEM, 'Broken Remote', 'Each time you activate an item, you may put a room or monster not being attacked into discard.', true],
+    [ORIGIN_SET.REQUIEM, 'Callus', 'Prevent all non-combat damage you would take.', true],
+    [ORIGIN_SET.REQUIEM, 'Golden Trinket', 'When this enters play put a gold counter on another non-eternal item you control. This has the abilities of other items with gold counters on them.', true],
+    [ORIGIN_SET.REQUIEM, 'Lucky Toe', 'If you would loot, except during the loot step, instead loot that much +1.', true],
+    [ORIGIN_SET.REQUIEM, 'Rib of Greed', 'Abilities and the death penalty can\'t make you discard loot cards or lose ¢.', true],
+    [ORIGIN_SET.REQUIEM, 'Tick (Eternal)', 'The first time you kill a monster on your turn, heal + 1HP and you may attack an additional time this turn.', true],
+    [ORIGIN_SET.REQUIEM, 'Wishbone', 'When this is destroyed, gain +1 treasure.', true],
+    [ORIGIN_SET.REQUIEM, 'Dad\'s Note', 'Choose up to 3 non-event monster cards in discard. Put them in one or more monster slots not being attacked.', false],
+    [ORIGIN_SET.REQUIEM, 'Key', 'Choose one- •The active player may attack an additional time this turn. | •Put the top card of the monster deck in a monster slot not being attacked.', false],
+    [ORIGIN_SET.REQUIEM, 'Magic Marker', 'Change a number in the effect text of a card in play or loot being played by 1 till end of turn. The number can\'t go below 1 or above 6.', false],
+    [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Demon Form', 'Gain +2 attack till end of turn.', false],
+    [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Fiend Fire', 'As a cost to play this, discard your hand. | Deal x damage divided as you choose to any number of monsters or players, where x is the number of loot cards discarded to play this.', false],
+    [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Loot Card', 'When this enters play, loot 1. | At the end of your turn you may return this to your hand.', true],
+    [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Bible Thump', 'Loot 2, then loot 2 for each player that died this turn.', false],
+    [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Blanks', 'Choose a player. prevent the next instance of damage they would take this turn. When that damage is prevented, deal that much damage to a monster or another player.', false],
+    [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Cheep Cheep Cheep!', 'Choose a player. till the start of their next turn, their character is named chicken and must be attacked once by other active players on their turns if able. The chosen player has 3+ dice roll for the attacks.', false],
+    [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Chunk of Amber', 'Roll- Gain x¢, where x is 2 times the result.', false],
+    [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Cow on a Trash Farm', 'Choose a player. until the start of their next turn, their character is named cow and loses all abilities, and each item they control is named trash and loses all abilities, except eternal.', false],
+    [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Greed Butt! (8HP, 2+DC, 1ATK)', 'When this is put into a monster slot, expand monster slots by 1. (AMBUSH: This becomes a monster in a monster slot not being attacked. The active player must make an additional attack on it this turn.)', false],
+    [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Jester', 'Reroll any number of items you control.', false],
+    [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Murder!', 'Players can be attacked till end of turn. they have 4+ dice roll for the attack. | At the end of the turn this was played, if a non-active player died, return this to the hand of the player who played it.', false],
+    [ORIGIN_SET.REQUIEM_WARP_ZONE, 'Witch', 'Choose one- Deal 1 damage to a monster or player. | Add or subtract 1 from a roll. | Cancel the effect of an active item or loot card being played.', false],
+    [ORIGIN_SET.TAPEWORM, 'Rainbow Tapeworm', 'At the start of your turn, roll: 1-3: do nothing., 4-6: This becomes a copy of any non-eternal item in play till the end of your turn.', true],
+    [ORIGIN_SET.UNBOXING_OF_ISAAC, 'Butt Penny!', 'Gain 1¢, then roll.', false],
+    [ORIGIN_SET.UNBOXING_OF_ISAAC, 'Pills!', 'Choose a player at random. That player gives you a non-eternal item they control.', false],
+    [ORIGIN_SET.UNBOXING_OF_ISAAC, 'Pills!', 'Roll-5-6: This becomes an item with "prevent the first 1 damage you would take each turn." Gain it.', false],
+    [ORIGIN_SET.UNBOXING_OF_ISAAC, 'Pills!', 'Roll- 5-6: this becomes an item with "+1 attack." Gain it.', false],
+    [ORIGIN_SET.PROMOS, 'Short Fuse', 'When this is destroyed, deal 2 damage to a monster or player.', true],
+    
 ]
 
+/* The sub-arrays contain the following:
+* 1. Origin Set: enum of string
+* 2. Card Title: string
+* 3. Effect Description: string
+* 4. isPayable: Boolean
+* 
+* isTappable set to false by default
+*/
 export const roomCardInfo = [
     [ORIGIN_SET.REQUIEM, 'All Hallows\' Eve', 'Players can\'t gain souls', false],
     [ORIGIN_SET.REQUIEM, 'Angelic Intervention', 'Each time the active player attacks the top of the monster deck, after putting it in a monster slot, they may cancel their attack.', false],
@@ -353,4 +492,4 @@ export const roomCardInfo = [
     [ORIGIN_SET.REQUIEM, 'Blood Donation', '(Paid Effect) Pay 1 HP: gain 3¢.', true],
     [ORIGIN_SET.REQUIEM, 'Blood Lust', 'The active player must attack each turn if able. | The first time the active player declares an attack each turn, they must attack an additional time this turn.', true],
     [ORIGIN_SET.REQUIEM, 'Blood Money', 'Each time a player dies, each other player gains 4¢.', true],
-]
+] 

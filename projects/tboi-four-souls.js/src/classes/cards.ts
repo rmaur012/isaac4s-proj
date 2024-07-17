@@ -9,18 +9,19 @@ export const CARD_TYPES = {
 }
 
 export const ORIGIN_SET = {
-  BASE_V2: "BASE V2",
-  FOUR_SOULS_PLUS_V2: "FOUR SOULS+ V2",
-  REQUIEM: "REQUIEM",
-  GOLD_BOX_V2: "GOLD BOX V2",
-  SUMMER_OF_ISAAC: "SUMMER OF ISAAC",
-  REQUIEM_WARP_ZONE: "REQUIEM WARP ZONE",
-  TARGET: "TARGET",
-  GISH: "GISH",
-  TAPEWORM: "TAPEWORM",
-  DICK_KNOTS: "DICK KNOTS",
-  G_FUEL: "G-FUEL",
-  UNBOXING_OF_ISAAC: "THE UNBOXING OF ISAAC"
+  BASE_V2: 'BASE V2',
+  FOUR_SOULS_PLUS_V2: 'FOUR SOULS+ V2',
+  REQUIEM: 'REQUIEM',
+  GOLD_BOX_V2: 'GOLD BOX V2',
+  SUMMER_OF_ISAAC: 'SUMMER OF ISAAC',
+  REQUIEM_WARP_ZONE: 'REQUIEM WARP ZONE',
+  TARGET: 'TARGET',
+  GISH: 'GISH',
+  TAPEWORM: 'TAPEWORM',
+  DICK_KNOTS: 'DICK KNOTS',
+  G_FUEL: 'G-FUEL',
+  UNBOXING_OF_ISAAC: 'THE UNBOXING OF ISAAC',
+  PROMOS: 'PROMOS'
 }
 
 export const MONSTER_KILL_REWARDS = {
@@ -184,15 +185,21 @@ export class SoulCard extends BaseCard {
 
 export class LootCard extends BaseCard {
   private _isTrinket: boolean;
+  private _numOfOccurrences: number;
 
-  constructor(originSet: string, name: string, effect: string, isTappable: boolean, isTrinket: boolean){
-    super(originSet, CARD_TYPES.LOOT, name, effect, isTappable, false)
+  constructor(originSet: string, name: string, effect: string,  isTrinket: boolean, numOfOccurrences: number = 1){
+    super(originSet, CARD_TYPES.LOOT, name, effect, false, false)
     this._isTrinket = isTrinket;
+    this._numOfOccurrences = numOfOccurrences;
   }
 
   // Getters
   get isTrinket(): boolean {
     return this._isTrinket;
+  }
+
+  get numOfOccurrences(): number {
+    return this._numOfOccurrences;
   }
 }
 
