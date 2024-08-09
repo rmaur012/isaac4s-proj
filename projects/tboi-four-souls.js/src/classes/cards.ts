@@ -15,13 +15,17 @@ export const ORIGIN_SET = {
   GOLD_BOX_V2: 'GOLD BOX V2',
   SUMMER_OF_ISAAC: 'SUMMER OF ISAAC',
   REQUIEM_WARP_ZONE: 'REQUIEM WARP ZONE',
+  ALT_ART: 'ALT ART',
   TARGET: 'TARGET',
   GISH: 'GISH',
   TAPEWORM: 'TAPEWORM',
   DICK_KNOTS: 'DICK KNOTS',
   G_FUEL: 'G-FUEL',
+  RETRO: 'RETRO',
   UNBOXING_OF_ISAAC: 'THE UNBOXING OF ISAAC',
-  PROMOS: 'PROMOS'
+  PROMOS: 'PROMOS',
+  YOUTOOZ: 'YOUTOOZ',
+  CHALLENGES: 'CHALLENGES'
 }
 
 export const MONSTER_KILL_REWARDS = {
@@ -29,6 +33,13 @@ export const MONSTER_KILL_REWARDS = {
   LOOT1: 'Loot 1',
   LOOT2: 'Loot 2',
   LOOT3: 'Loot 3',
+  LOOT4: 'Loot 4',
+  LOOT5: 'Loot 5',
+  LOOT6: 'Loot 6',
+  LOOT10: 'Loot 10',
+  LOOT_COUNTER: 'Loot 1 For Each Counter On This',
+  LOOT3ANDGAIN6CENTS: 'Loot 3 + Gain 6¢',
+  HEART:'<3',
   CENTS_ONE: '1¢',
   CENTS_TWO: '2¢',
   CENTS_THREE: '3¢',
@@ -38,11 +49,19 @@ export const MONSTER_KILL_REWARDS = {
   CENTS_SEVEN: '7¢',
   CENTS_EIGHT: '8¢',
   CENTS_NINE: '9¢',
+  CENTS_TEN: '10¢',
+  CENTS_EIGHTEEN: '18¢',
+  CENTS_TWENTY_FIVE: '25¢',
+  CENTS_FOURTY: '40¢',
+  EXTRATURN: 'Take An Extra Turn After This One',
   ROLL_FOR_CENTS: 'Roll- Gain X ¢',
   ROLL_FOR_LOOT: 'Roll- Loot X',
   PLUS1TREASURE: '+1 Treasure',
   PLUS2TREASURE: '+2 Treasure',
+  PLUSTREASUREPERCOUNTER: 'Gain +1 Treasure For Each Counter On This',
   STEAL_SHOP_ITEM: 'Steal a shop item',
+  THIS_KILLS_YOU: 'THIS KILLS YOU!',
+  UNKNOWN: 'UNKNOWN'
 }
 
 
@@ -172,8 +191,14 @@ export class MonsterCard extends BaseCard {
 }
 
 export class TreasureCard extends BaseCard{
-  constructor(originSet: string, name: string, effect: string, isTappable: boolean, isPayable: boolean){
+  private _isGuppy: boolean;
+  constructor(originSet: string, name: string, effect: string, isTappable: boolean, isPayable: boolean, isGuppy: boolean){
     super(originSet, CARD_TYPES.TREASURE, name, effect, isTappable, isPayable)
+    this._isGuppy = isGuppy;
+  }
+
+  get isGuppy(): boolean {
+    return this._isGuppy;
   }
 }
 

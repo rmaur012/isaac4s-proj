@@ -1,5 +1,5 @@
 import { BaseCard, LootCard, MonsterCard, PlayerCard, RoomCard, SoulCard, StartingItemCard, TreasureCard } from "./cards";
-import { playerCardInfo, startingItemCardInfo, soulCardInfo, monsterCardInfo, lootCardInfo, roomCardInfo } from "./card-info";
+import { playerCardInfo, startingItemCardInfo, soulCardInfo, monsterCardInfo, lootCardInfo, roomCardInfo, treasureCardInfo } from "../data/card-info";
 
 
 // Abstract Class
@@ -19,11 +19,44 @@ abstract class BaseDeck<T extends BaseCard> {
   abstract instantiate(): void;
 
   shuffle() {
-    // A common shuffle implementation for all decks
+    // Initial full deck shuffle to simulate a wash shuffle
+    this.washShuffle();
+
+    // Multiple riffle shuffles since it's a really efficient shuffle if done multiple times
+    // We want between 4-7 shuffles
+    const max = 7, min = 4;
+    var numOfShuffles = Math.floor(Math.random() * (max - min) + min);
+    while(numOfShuffles > 0){
+      this.riffleShuffle();
+      numOfShuffles--;
+    }
+   }
+
+  private washShuffle(){
+    // Fisher-Yates Shuffle
     for (let i = this._deck.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * ( i + 1));
+      const j = Math.floor(Math.random() * (i + 1));
       [this._deck[i], this._deck[j]] = [this._deck[j], this._deck[i]];
     }
+  }
+
+  private riffleShuffle(){
+    var finalDeck = [];
+    var firstStack = this._deck.slice(0, Math.floor(this._deck.length/2));
+    var secondStack = this._deck.slice(Math.floor(this._deck.length/2), this._deck.length-1);
+    const maxLength = firstStack.length > secondStack.length ? firstStack.length : secondStack.length ;
+
+    var index = 0;
+    while(index < maxLength){
+      if(index < firstStack.length){
+        finalDeck.push(firstStack[index]);
+      }
+      if(index < secondStack.length){
+        finalDeck.push(secondStack[index]);
+      }
+      index = index + 1;
+    }
+    this._deck = finalDeck;
   }
 
   getRandomCard(): T{
@@ -31,46 +64,30 @@ abstract class BaseDeck<T extends BaseCard> {
   }
 
   findCardByName(targetCardName: string){
-    for(const card of this._deck){
-      if(card.name.toLowerCase() === targetCardName.toLowerCase()){
-        return card;
-      }
-    }
-    return null;
+    return this._deck.find((card) => card.name.toLowerCase() === targetCardName.toLowerCase());
   }
 
   getAllCardsByOriginSet(originSet: string): T[]{
-    var cardsFound: T[] = [];
-    for(const aCard of this._deck){
-      if(aCard.originSet === originSet){
-        cardsFound.push(aCard);
-      }
-    }
+    var cardsFound: T[] = this._deck.filter((card) => card.originSet == originSet);
     return cardsFound;
   }
 
-  getAllCardsThatAreTappable(): BaseCard[]{
-    var cardsFound: BaseCard[] = [];
-    for(const aCard of this._deck){
-      if(aCard.isTappable === true){
-        cardsFound.push(aCard);
-      }
-    }
+  getAllTappableCards(): BaseCard[]{
+    var cardsFound: BaseCard[] = this._deck.filter((card) => card.isTappable == true);
     return cardsFound;
   }
 
-  getAllCardsThatArePayable(): BaseCard[]{
-    var cardsFound: BaseCard[] = [];
-    for(const aCard of this._deck){
-      if(aCard.isPayable === true){
-        cardsFound.push(aCard);
-      }
-    }
+  getAllPayableCards(): BaseCard[]{
+    var cardsFound: BaseCard[] = this._deck.filter((card) => card.isPayable == true);
     return cardsFound;
+  }
+
+  excludeCardsByOriginSet(excludeOriginSet: string){
+    this._deck = this._deck.filter((card) => card.originSet != excludeOriginSet);
   }
 
   // Returns cards from the top without taking those cards out of the array
-  peekCards(peekAmount: number): BaseCard[]{
+  peekCardsFromTop(peekAmount: number): BaseCard[]{
     if(peekAmount > this._deck.length){
       peekAmount = this._deck.length;
     }
@@ -88,7 +105,7 @@ abstract class BaseDeck<T extends BaseCard> {
   }
 
   // Take cards from deck from the front of the deck
-  drawCards(drawAmount: number): BaseCard[]{
+  drawCardsFromTop(drawAmount: number): BaseCard[]{
     if(drawAmount > this._deck.length){
       drawAmount = this._deck.length;
     }
@@ -151,16 +168,11 @@ export class PlayerDeck extends BaseDeck<PlayerCard>{
     }
   }
 
-  findStartingItemForCharacter(charCard: PlayerCard, startingItemDeck: StartingItemDeck): StartingItemCard | null{
+  findStartingItemForCharacter(charCard: PlayerCard, startingItemDeck: StartingItemDeck): StartingItemCard | null | undefined{
     if(charCard.name === 'Eden'){ // Eden has no starting item
       return null;
     }
-    for(const startingItem of startingItemDeck.deck){
-      if(startingItem.name === charCard.eternal){
-        return startingItem;
-      }
-    }
-    return null;
+    return startingItemDeck.deck.find((card) => card.name === charCard.eternal);
   }
 }
 
@@ -194,12 +206,7 @@ export class MonsterDeck extends BaseDeck<MonsterCard>{
   }
 
   getAllCardsWithSouls(): MonsterCard[]{
-    var cardsFound: MonsterCard[] = [];
-    for(const aCard of this.deck){
-      if(aCard.numOfSouls){
-        cardsFound.push(aCard);
-      }
-    }
+    var cardsFound: MonsterCard[] = this.deck.filter((card) => card.numOfSouls > 0);
     return cardsFound;
   }
 }
@@ -213,9 +220,14 @@ export class TreasureDeck extends BaseDeck<TreasureCard>{
 
   instantiate() {
     this.resetDeckToEmpty();
-    for (const cardInfo of playerCardInfo) {
-      this.addOneCardToBottomOfDeck(new TreasureCard(cardInfo[0].toString(), cardInfo[1].toString(), cardInfo[2].toString(), Boolean(cardInfo[3]), Boolean(cardInfo[4])));
+    for (const cardInfo of treasureCardInfo) {
+      this.addOneCardToBottomOfDeck(new TreasureCard(cardInfo[0].toString(), cardInfo[1].toString(), cardInfo[2].toString(), Boolean(cardInfo[3]), Boolean(cardInfo[4]),  Boolean(cardInfo[5])));
     }
+  }
+
+  getAllGuppyItemCards(): TreasureCard[]{
+    var cardsFound: TreasureCard[] = this.deck.filter((card) => card.isGuppy == true);
+    return cardsFound;
   }
 }
 
