@@ -1,5 +1,5 @@
 export const CARD_TYPES = {
-  PLAYER: "PLAYER",
+  CHARACTER: "CHARACTER",
   STARTING_ITEM: "STARTING ITEM",
   MONSTER: "MONSTER",
   TREASURE: "TREASURE",
@@ -108,13 +108,13 @@ export abstract class BaseCard {
   }
 }
 
-export class PlayerCard extends BaseCard {
+export class CharacterCard extends BaseCard {
   private _eternal: string;
   private _health: number;
   private _attack: number;
 
   constructor(originSet: string, name: string, effect: string, eternal: string, health: number = 2, attack: number = 1){
-    super(originSet, CARD_TYPES.PLAYER, name, effect, true, false)
+    super(originSet, CARD_TYPES.CHARACTER, name, effect, true, false)
     this._eternal = eternal;
     this._health = health;
     this._attack = attack;
@@ -147,7 +147,7 @@ export class MonsterCard extends BaseCard {
   private _reward: string;
   private _numOfSouls: number;
   private _isEvent: boolean;
-  private  _isCurse: boolean;
+  private _isCurse: boolean;
 
   constructor(originSet: string, name: string, effect: string, health: number, diceRoll: number, attack: number, reward: string, numOfSouls: number, isEvent: boolean, isCurse: boolean){
     super(originSet, CARD_TYPES.MONSTER, name, effect, false, false)

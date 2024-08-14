@@ -1,6 +1,6 @@
 import { PlayerDeck, StartingItemDeck, SoulDeck, RoomDeck, LootDeck, MonsterDeck, TreasureDeck } from "./decks";
-import { ORIGIN_SET, PlayerCard, RoomCard, SoulCard } from "./cards";
-import { playerCardInfo, monsterCardInfo, treasureCardInfo, soulCardInfo, lootCardInfo, roomCardInfo, startingItemCardInfo } from "../data/card-info";
+import { ORIGIN_SET, CharacterCard, RoomCard, SoulCard } from "./cards";
+import { characterCardInfo, monsterCardInfo, treasureCardInfo, soulCardInfo, lootCardInfo, roomCardInfo, startingItemCardInfo } from "../data/card-info";
 
 
 describe('decks unit test > ', () => {
@@ -379,7 +379,7 @@ describe('decks unit test > ', () => {
     });
 
     describe('PlayerDeck class specific functions > ', () => {
-        const  fakePlayerCard = new PlayerCard(ORIGIN_SET.BASE_V2, 'FakeChar', 'Fake Effect', 'Fake Starting Item');
+        const  fakeCharacterCard = new CharacterCard(ORIGIN_SET.BASE_V2, 'FakeChar', 'Fake Effect', 'Fake Starting Item');
         beforeAll(() => {
             playerDeck = new PlayerDeck();
             startingItemDeck = new StartingItemDeck();
@@ -387,21 +387,21 @@ describe('decks unit test > ', () => {
         });
         it('should instantiate and have deck size equal to the number of player cards in info array', () => {
             var playerDeck = new PlayerDeck();
-            expect(playerDeck.deck.length).toBe(playerCardInfo.length);
+            expect(playerDeck.deck.length).toBe(characterCardInfo.length);
         });
 
         describe('findStartingItemForCharacter() tests', () => {
             it('when trying to find a starting card for a character card, then it successfully retrieves the starting item expected', () => {
                 const cainIndex = 2;
                 const expectedStartingItemName = 'Sleight of Hand';
-                const playerCard: PlayerCard = playerDeck.deck[cainIndex];
-                expect(playerDeck.findStartingItemForCharacter(playerCard, startingItemDeck)?.name).toBe(expectedStartingItemName);
+                const CharacterCard: CharacterCard = playerDeck.deck[cainIndex];
+                expect(playerDeck.findStartingItemForCharacter(CharacterCard, startingItemDeck)?.name).toBe(expectedStartingItemName);
             });
             it('when trying to find a starting card and cannot find a match to the character eternal, then it fails to find a starting card and returns undefined', () => {
-                expect(playerDeck.findStartingItemForCharacter(fakePlayerCard, startingItemDeck)).toBeUndefined();
+                expect(playerDeck.findStartingItemForCharacter(fakeCharacterCard, startingItemDeck)).toBeUndefined();
             });
             it('when trying to find a starting card specifically for Eden even with a real item for another character, then returns null', () => {
-                const fakeCharCard: PlayerCard = new PlayerCard(ORIGIN_SET.BASE_V2, 'Eden', 'N/A', 'The Curse');
+                const fakeCharCard: CharacterCard = new CharacterCard(ORIGIN_SET.BASE_V2, 'Eden', 'N/A', 'The Curse');
                 expect(playerDeck.findStartingItemForCharacter(fakeCharCard, startingItemDeck)).toBeNull();
             });
         });

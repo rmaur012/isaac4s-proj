@@ -1,5 +1,5 @@
-import { BaseCard, LootCard, MonsterCard, PlayerCard, RoomCard, SoulCard, StartingItemCard, TreasureCard } from "./cards";
-import { playerCardInfo, startingItemCardInfo, soulCardInfo, monsterCardInfo, lootCardInfo, roomCardInfo, treasureCardInfo } from "../data/card-info";
+import { BaseCard, LootCard, MonsterCard, CharacterCard, RoomCard, SoulCard, StartingItemCard, TreasureCard } from "./cards";
+import { characterCardInfo, startingItemCardInfo, soulCardInfo, monsterCardInfo, lootCardInfo, roomCardInfo, treasureCardInfo } from "../data/card-info";
 
 
 // Abstract Class
@@ -58,7 +58,7 @@ abstract class BaseDeck<T extends BaseCard> {
     }
     this._deck = finalDeck;
   }
-
+// TODO: Make the deck take out the card since we are getting it. 
   getRandomCard(): T{
     return this._deck[Math.floor(Math.random() * (this._deck.length + 1))];
   }
@@ -149,7 +149,7 @@ abstract class BaseDeck<T extends BaseCard> {
   }
 }
 
-export class PlayerDeck extends BaseDeck<PlayerCard>{
+export class PlayerDeck extends BaseDeck<CharacterCard>{
   private _basicPlayerEffect: string = 'Play an additional loot card this turn.';
 
   constructor() {
@@ -159,16 +159,16 @@ export class PlayerDeck extends BaseDeck<PlayerCard>{
 
   instantiate() {
     this.resetDeckToEmpty();
-    for (const cardInfo of playerCardInfo) {
+    for (const cardInfo of characterCardInfo) {
       if(cardInfo[2] === ''){
-        this.addOneCardToBottomOfDeck(new PlayerCard(cardInfo[0].toString(), cardInfo[1].toString(), this._basicPlayerEffect, cardInfo[3].toString(), Number(cardInfo[4]), Number(cardInfo[5]))); 
+        this.addOneCardToBottomOfDeck(new CharacterCard(cardInfo[0].toString(), cardInfo[1].toString(), this._basicPlayerEffect, cardInfo[3].toString(), Number(cardInfo[4]), Number(cardInfo[5]))); 
       } else {
-        this.addOneCardToBottomOfDeck(new PlayerCard(cardInfo[0].toString(), cardInfo[1].toString(), cardInfo[2].toString(), cardInfo[3].toString(), Number(cardInfo[4]), Number(cardInfo[5])));
+        this.addOneCardToBottomOfDeck(new CharacterCard(cardInfo[0].toString(), cardInfo[1].toString(), cardInfo[2].toString(), cardInfo[3].toString(), Number(cardInfo[4]), Number(cardInfo[5])));
       }
     }
   }
 
-  findStartingItemForCharacter(charCard: PlayerCard, startingItemDeck: StartingItemDeck): StartingItemCard | null | undefined{
+  findStartingItemForCharacter(charCard: CharacterCard, startingItemDeck: StartingItemDeck): StartingItemCard | null | undefined{
     if(charCard.name === 'Eden'){ // Eden has no starting item
       return null;
     }

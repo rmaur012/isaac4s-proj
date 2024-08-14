@@ -9,9 +9,8 @@ import { ORIGIN_SET, MONSTER_KILL_REWARDS } from "../classes/cards"
 * 6. attack: number
 * 
 * isTappable is set to true and isPayable set to false by default
-* COMPLETE
 */
-export const playerCardInfo = [
+export const characterCardInfo = [
     [ORIGIN_SET.BASE_V2, 'Isaac', '', 'The D6', 2, 1],
     [ORIGIN_SET.BASE_V2, 'Maggy', '', 'Yum Heart', 2, 1],
     [ORIGIN_SET.BASE_V2, 'Cain', '', 'Sleight of Hand', 2, 1],
@@ -82,8 +81,6 @@ export const playerCardInfo = [
 * 3. Effect Description: string
 * 4. isTappable: boolean
 * 5. isPayable: boolean
-* 
-* COMPLETE
 */
 export const startingItemCardInfo = [
     [ORIGIN_SET.BASE_V2, 'The D6', '(Tap Effect) Choose a dice roll. its controller rerolls it. | At the end of your turn, recharge this.', true, false],
@@ -484,8 +481,6 @@ export const monsterCardInfo = [
 * 4. isTappable: boolean
 * 5. isPayable: boolean
 * 6. isGuppy: boolean
-* 
-* COMPLETE
 */
 export const treasureCardInfo = [
     [ORIGIN_SET.BASE_V2, 'Belly Button', 'You may play an additional loot card on your turn. | Each time you take damage, you may recharge your character.', false, false, false],
@@ -759,7 +754,6 @@ export const treasureCardInfo = [
 * 3. Effect Description: string
 * 
 * isTappable and isPayable set to false by default
-* COMPLETE
 */
 export const soulCardInfo = [
     [ORIGIN_SET.BASE_V2, 'Soul of Envy', 'The first time a player controls their 3rd soul, the active player chooses a player who controls the fewest souls or tied for fewest. that player gains this soul.'],
@@ -781,7 +775,6 @@ export const soulCardInfo = [
 * 5. numOfOccurrences: number (optional, defaulted to 1 if missing)
 * 
 * isTappable and isPayable set to false by default
-* COMPLETE
 */
 export const lootCardInfo = [
     [ORIGIN_SET.BASE_V2, 'A Penny!', 'Gain 1¢.', false, 11],
@@ -909,7 +902,6 @@ export const lootCardInfo = [
 * 4. isPayable: Boolean
 * 
 * isTappable set to false by default
-* COMPLETE
 */
 export const roomCardInfo = [
     [ORIGIN_SET.REQUIEM, 'All Hallows\' Eve', 'Players can\'t gain souls', false],
