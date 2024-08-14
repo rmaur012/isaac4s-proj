@@ -1,6 +1,6 @@
 {
   "name": "tboi-four-souls.js",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
     "build": "ng build",
     "test": "ng test tboi-four-souls.js"
