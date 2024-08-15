@@ -1,6 +1,22 @@
 {
   "name": "tboi-four-souls.js",
   "version": "1.0.0",
+  "keywords": [
+    "tboi",
+    "isaac",
+    "card",
+    "deck",
+    "character",
+    "monster",
+    "loot",
+    "eternal",
+    "game",
+    "treasure",
+    "room",
+    "four",
+    "souls"
+  ],
+  "license": "MIT",
   "scripts": {
     "build": "ng build",
     "test": "ng test tboi-four-souls.js"

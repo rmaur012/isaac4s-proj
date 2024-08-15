@@ -1,7 +1,5 @@
 # Tboi Four Souls.js
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.0.
-
 This library was created to provide a single package with all information regarding the Binding of Isaac: Four Souls card game. This is NOT the game itself, this is just all the cards pertaining to the game in a library that allows you to create each deck and be able to use them for your projects.
 
 It contains:
@@ -108,7 +106,7 @@ Specific Deck Functions:
         - Filters out all cards that are not Guppy cards and returns them in an array.
 
         
-
+This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.0.
 ______________________
 
 # General Angular Library Details Below
